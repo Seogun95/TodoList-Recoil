@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react';
 
-function App() {
+import { Outlet } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import { Theme, DarkTheme } from 'styles/theme';
+import { GlobalStyle, media } from 'styles';
+
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { useRecoilValue } from 'recoil';
+import { isDarkAtom } from 'atom';
+
+const queryClient = new QueryClient();
+
+export default function App() {
+  const darkMode = useRecoilValue(isDarkAtom);
+  const theme = darkMode ? { ...DarkTheme, ...media } : { ...Theme, ...media };
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', darkMode ? 'true' : 'false');
+  }, [darkMode]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={true} />
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <Outlet />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </>
   );
 }
-
-export default App;
