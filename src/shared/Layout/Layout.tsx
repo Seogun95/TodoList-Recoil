@@ -21,6 +21,6 @@ export function Layout() {
 
 const Wrapper = styled.main`
   width: 100%;
-  height: 200vh;
-  padding-top: 3.125rem;
+  height: 100%;
+  padding: 3.125rem 10px;
 `;

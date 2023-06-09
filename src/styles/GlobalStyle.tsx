@@ -33,6 +33,17 @@ a {
   color: inherit;
 }
 
+button {
+  border: none;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  transition: .1s ease;
+  &:active {
+    opacity: .7;
+  }
+}
+
 h1 { font-size: 2.5rem }
 h2 { font-size: 2.1rem }
 h3 { font-size: 1.5rem }
