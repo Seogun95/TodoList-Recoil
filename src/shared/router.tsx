@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import App from 'App';
 
 import { Layout, NotFound } from 'shared/Layout';
-import { TodoList } from 'pages';
+import { SignUp, TodoList } from 'pages';
 
 const router = createBrowserRouter(
   [
@@ -22,6 +22,10 @@ const router = createBrowserRouter(
           children: [
             {
               index: true,
+              element: <SignUp />,
+            },
+            {
+              path: 'todo',
               element: <TodoList />,
             },
           ],
