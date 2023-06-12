@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
-import { ITodoValues } from 'pages/Todos';
-import { TODO_CATEGORY } from 'utils';
+import { ITodoValues, TODO_CATEGORY } from 'pages/Todos';
+import { recoilPersist } from 'recoil-persist';
 
 export const isDarkAtom = atom<boolean>({
   key: 'isDark',
@@ -15,6 +15,12 @@ interface ISignUp {
   password?: string;
   password2?: string;
 }
+
+const { persistAtom } = recoilPersist({
+  key: 'todoLocal', // 로컬스토리지에서 사용할 키 이름
+  storage: localStorage, // 사용할 스토리지 타입
+});
+
 export const signUpStateAtom = atom<ISignUp[]>({
   key: 'signup',
   default: [],
@@ -23,29 +29,24 @@ export const signUpStateAtom = atom<ISignUp[]>({
 export const todoStateAtom = atom<ITodoValues[]>({
   key: 'todos',
   default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const categoryListState = atom<string[]>({
+  key: 'categoryList',
+  default: Object.values(TODO_CATEGORY),
+});
+
+export const categoryState = atom({
+  key: 'categoryTitle',
+  default: TODO_CATEGORY.TODO,
 });
 
 export const filteredTodoListState = selector({
   key: 'filteredTodoListState',
   get: ({ get }) => {
     const toDos = get(todoStateAtom);
-    const categoryList = Object.values(TODO_CATEGORY);
-    const filteredTodoList = [...categoryList].map(categoryText =>
-      toDos.filter(todo => todo.category === categoryText)
-    );
-    return filteredTodoList;
+    const getCategory = get(categoryState);
+    return toDos.filter(v => v.category === getCategory);
   },
 });
-
-/*
-export const filteredTodoListState = selector({
-  key: 'filteredTodoListState',
-  get: ({ get }) => {
-    const toDos = get(todoStateAtom);
-    return [
-      toDos.filter(toDo => toDo.category === '진행 예정'),
-      toDos.filter(toDo => toDo.category === '진행'),
-      toDos.filter(toDo => toDo.category === '완료'),
-    ];
-  },
-}); */
