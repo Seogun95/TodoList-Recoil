@@ -22,11 +22,11 @@ const router = createBrowserRouter(
           children: [
             {
               index: true,
-              element: <SignUp />,
+              element: <TodoList />,
             },
             {
-              path: 'todo',
-              element: <TodoList />,
+              path: 'sinup',
+              element: <SignUp />,
             },
           ],
         },
