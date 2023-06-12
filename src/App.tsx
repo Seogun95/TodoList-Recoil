@@ -16,10 +16,6 @@ export default function App() {
   const darkMode = useRecoilValue(isDarkAtom);
   const theme = darkMode ? { ...DarkTheme, ...media } : { ...Theme, ...media };
 
-  useEffect(() => {
-    localStorage.setItem('darkMode', darkMode ? 'true' : 'false');
-  }, [darkMode]);
-
   return (
     <>
       <QueryClientProvider client={queryClient}>

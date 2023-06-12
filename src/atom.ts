@@ -2,9 +2,15 @@ import { atom, selector } from 'recoil';
 import { ITodoValues, TODO_CATEGORY } from 'pages/Todos';
 import { recoilPersist } from 'recoil-persist';
 
+const { persistAtom: darkPersist } = recoilPersist({
+  key: 'themeLocal',
+  storage: localStorage,
+});
+
 export const isDarkAtom = atom<boolean>({
   key: 'isDark',
-  default: localStorage.getItem('darkMode') !== 'false',
+  default: true,
+  effects_UNSTABLE: [darkPersist],
 });
 
 interface ISignUp {
@@ -16,20 +22,20 @@ interface ISignUp {
   password2?: string;
 }
 
-const { persistAtom } = recoilPersist({
-  key: 'todoLocal', // 로컬스토리지에서 사용할 키 이름
-  storage: localStorage, // 사용할 스토리지 타입
-});
-
 export const signUpStateAtom = atom<ISignUp[]>({
   key: 'signup',
   default: [],
 });
 
+const { persistAtom: todoPersist } = recoilPersist({
+  key: 'todoLocal', // 로컬스토리지에서 사용할 키 이름
+  storage: localStorage, // 사용할 스토리지 타입
+});
+
 export const todoStateAtom = atom<ITodoValues[]>({
   key: 'todos',
   default: [],
-  effects_UNSTABLE: [persistAtom],
+  effects_UNSTABLE: [todoPersist],
 });
 
 export const categoryListState = atom<string[]>({
