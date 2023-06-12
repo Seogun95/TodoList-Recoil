@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { FormInput } from 'components/FormInput';
 import { useRecoilState } from 'recoil';
@@ -163,7 +164,7 @@ export function SignUp() {
       <hr />
       <ul>
         {info.map(v => (
-          <li key={v.id}>
+          <li key={uuidv4()}>
             <p>닉네임: {v.nickname}</p>
             <p>아이디: {v.id}</p>
             <p>이메일: {v.email}</p>
