@@ -1,13 +1,13 @@
 import React from 'react';
-import { ITodoValues } from './interface';
+import { ITodoValues, TODO_CATEGORY } from './interface';
 import { useSetRecoilState } from 'recoil';
 import { todoStateAtom } from 'atom';
-import { TODO_CATEGORY } from 'utils';
 
 export function Todo({ todoText, category, id }: ITodoValues) {
+  const { TODO, DOING, DONE, CANCEL } = TODO_CATEGORY;
   const setTodo = useSetRecoilState(todoStateAtom);
 
-  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onAddTodoHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     const {
       currentTarget: { name: buttonName },
     } = e;
@@ -21,34 +21,40 @@ export function Todo({ todoText, category, id }: ITodoValues) {
     );
   };
 
+  const onDeleteTodoHandler = () => {
+    setTodo(prev => {
+      return prev.filter(v => v.id !== id);
+    });
+  };
+
   return (
     <li>
       {todoText}
-      {category === TODO_CATEGORY.TODO && (
+      {category === TODO && (
         <>
-          <button name={TODO_CATEGORY.DOING} onClick={onClick}>
-            {TODO_CATEGORY.DOING}
+          <button name={DOING} onClick={onAddTodoHandler}>
+            {DOING}
           </button>
-          <button name={TODO_CATEGORY.DONE} onClick={onClick}>
-            {TODO_CATEGORY.DONE}
-          </button>
+          <button onClick={onDeleteTodoHandler}>삭제</button>
         </>
       )}
-      {category === TODO_CATEGORY.DOING && (
+      {category !== TODO && category !== DONE && (
         <>
-          <button name={TODO_CATEGORY.TODO} onClick={onClick}>
+          <button name={TODO} onClick={onAddTodoHandler}>
             {TODO_CATEGORY.CANCEL}
           </button>
-          <button name={TODO_CATEGORY.DONE} onClick={onClick}>
-            {TODO_CATEGORY.DONE}
+          <button name={DONE} onClick={onAddTodoHandler}>
+            {DONE}
           </button>
+          <button onClick={onDeleteTodoHandler}>삭제</button>
         </>
       )}
-      {category === TODO_CATEGORY.DONE && (
+      {category === DONE && (
         <>
-          <button name={TODO_CATEGORY.TODO} onClick={onClick}>
-            {TODO_CATEGORY.CANCEL}
+          <button name={TODO} onClick={onAddTodoHandler}>
+            {CANCEL}
           </button>
+          <button onClick={onDeleteTodoHandler}>삭제</button>
         </>
       )}
     </li>
