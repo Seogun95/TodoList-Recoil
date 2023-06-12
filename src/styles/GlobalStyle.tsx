@@ -34,7 +34,6 @@ a {
 }
 
 button {
-  border: none;
   text-align: center;
   display: inline-block;
   cursor: pointer;
@@ -129,7 +128,7 @@ a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
 b, u, i, center,
-dl, dt, dd, ol, ul, li,
+dl, dt, dd,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
@@ -149,7 +148,12 @@ footer, header, hgroup, menu, nav, section {
   display: block;
 }
 ol, ul {
-  list-style: none;
+  list-style: decimal;
+  margin: 0;
+  padding: 0 20px;
+ li {
+  margin: .2rem 0
+ }
 }
 blockquote, q {
   quotes: none;
